@@ -7,14 +7,33 @@ app.listen(8000);
 
 hue.load("192.168.2.166", "bazathackedio");
 
-var iterateLights = function(state) {
-console.log('iteration');
+var switchLights = function(state) {
 	hue.lights(function(lights){
-	    for(i in lights)
-		if(lights.hasOwnProperty(i))
+    for(i in lights) {
+			if(lights.hasOwnProperty(i)){
 		    hue.change(lights[i].set({"on": state, "rgb":[0,255,255]}));
+			}
+		}
 	});
 };
+
+function colourRandomizer() {
+	Math.floor((Math.random() * 255));
+};
+
+var iterateColours = function() {
+	hue.lights(function(lights){
+    for(i in lights) {
+			if(lights.hasOwnProperty(i)){
+				var hueLight = lights[i];
+						hue.change(hueLight.set({"on": true, "rgb":[	Math.floor((Math.random() * 255)),
+																													Math.floor((Math.random() * 255)),
+																													Math.floor((Math.random() * 255))
+																												]}));
+			}
+		}
+	});
+}
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -30,15 +49,11 @@ function handler (req, res) {
 }
 
 io.sockets.on('connection', function (socket) {
-  console.log('connected');
-  socket.emit('news', { hello: 'world' });
   socket.on('switchOn', function(data) {
-	iterateLights(data.state);
+		//switchLights(data.state);
+		iterateColours();
   });
 
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
 });
 
 
