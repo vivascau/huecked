@@ -1,35 +1,24 @@
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
   , fs = require('fs')
-  , hue = require('hue-module')
+    , hue = require('hue-module')
+    , hueMod = require('./hue')
+
 
 app.listen(8000);
 
 hue.load("192.168.2.166", "bazathackedio");
-var gameStarted = false;
+hueMod.init(hue);
 
+var gameStarted = false;
 
 var startGame = function() {
 		gameStarted = true;
-		var colourRandomizer = function() {
-					Math.floor((Math.random() * 255));
-		};
-
-		var changeColours = function(r_colour, g_colour, b_colour) {
-			hue.lights(function(lights){
-				for(i in lights) {
-					if(lights.hasOwnProperty(i)){
-						hue.change(lights[i].set({"on": false, "rgb":[r_colour, g_colour, b_colour]}));
-					}
-				}
-			});
-		};
-
 		setInterval(function() {
-						var r_colour = colourRandomizer();
-						var g_colour = colourRandomizer();
-						var b_colour = colourRandomizer();
-			changeColours(r_colour, g_colour, b_colour);
+						var r_colour = hueMod.colourRandomizer();
+						var g_colour = hueMod.colourRandomizer();
+						var b_colour = hueMod.colourRandomizer();
+			hueMod.changeColours(r_colour, g_colour, b_colour);
 		}, 1000);
 }
 
@@ -46,10 +35,19 @@ function handler (req, res) {
   });
 }
 
+
+/**
+ *
+ *
+ * SOCKET related code
+ *
+ *
+ *
+ */
 io.sockets.on('connection', function (socket) {
   socket.on('connect', function(data) {
 		if (!gameStarted) {
-			socket.emit('connected', state);
+			socket.emit('connected', false);
 		}
 	});
 
