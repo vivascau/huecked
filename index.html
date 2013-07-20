@@ -1,1 +1,39 @@
-hello world
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Huecked</title>
+    <style>
+          div {
+              margin: 5px;
+              padding: 5px;
+              border: 1px solid gray;
+              min-height: 50px;
+          }
+
+        .ready {
+            background-color: yellow;
+        }
+
+        .winner {
+            background-color: green;
+        }
+
+        .loser {
+            background-color: red;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="css/bingodab.css">-->
+
+</head>
+<body>
+
+<div ui-view="main"></div>
+
+<!--<script src="js/vendor/angular.min.js"></script>-->
+<script type="text/javascript"  src="js/vendor/angular-1.1.5.js"></script>
+<script type="text/javascript"  src="js/vendor/angular-ui-router.min.js"></script>
+<script type="text/javascript"  src="js/modules/huecked.js">
+
+</script>
+</body>
+</html>

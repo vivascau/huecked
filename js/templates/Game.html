@@ -1,0 +1,6 @@
+Game
+<div ng-hide="countdownSeconds == 0">{{ countdownSeconds }}</div>
+<div ng-hide="result == undefined">{{ result }}</div>
+<div style="background-color: {{ game.currentColor }}; transition: all .5s ease-in;">{{ game.currentColor }}</div>
+
+<div ng-repeat="player in players" ng-click="click($index)">{{ $index }}</div>
