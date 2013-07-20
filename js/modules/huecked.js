@@ -1,4 +1,4 @@
-var app = angular.module('app',['ui.state'])
+var app = angular.module('app',['ui.state','hmTouchevents'])
 
 app.factory('PlayersService', function(){
 
@@ -156,10 +156,7 @@ app.controller('GameController', ['$scope', '$location', '$timeout', 'PlayersSer
 
 }]);
 
-app.controller('IntroController', ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
-    console.log("IntroController");
-    $timeout( function(){ $location.path('start') }, 1000);
-}]);
+
 
 app.config(function($stateProvider, $routeProvider){
     $stateProvider
@@ -168,7 +165,7 @@ app.config(function($stateProvider, $routeProvider){
             views: {
                 "main": {
                     templateUrl: "js/templates/Intro.html",
-                    controller: 'IntroController'
+                    controller: 'IntroController.js'
                 }
             }
         })
@@ -186,6 +183,15 @@ app.config(function($stateProvider, $routeProvider){
                 "main": {
                     templateUrl: "js/templates/Game.html",
                     controller: 'GameController'
+                }
+            }
+        })
+        .state('selectPlayers', {
+            url: "/selectPlayers",
+            views: {
+                "main": {
+                    templateUrl: "js/templates/SelectPlayers.html",
+                    controller: 'SelectPlayersController'
                 }
             }
         })
