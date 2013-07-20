@@ -1,14 +1,20 @@
 var express = require('express');
 var app = express();
+
 var server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     fs = require('fs'),
     hue = require('hue-module'),
-    hueMod = require('./hue')
+    hueMod = require('./hue'),
+    gameMod = require('./game')
 
 
 hue.load("192.168.2.166", "bazathackedio");
+
+
+//init modules
 hueMod.init(hue);
+gameMod.init();
 
 var gameStarted = false;
 
@@ -39,6 +45,8 @@ server.listen(app.get('port'), function(){
 });
 
 
+
+
 /**
  *
  *
@@ -47,12 +55,21 @@ server.listen(app.get('port'), function(){
  *
  *
  */
+var connections;
+
 io.sockets.on('connection', function (socket) {
-  socket.on('connect', function(data) {
-		if (!gameStarted) {
-			socket.emit('connected', "ready");
-		}
-	});
+
+    socket.on('connect', function(data) {
+        hueMod.blink();
+        if (!gameStarted) {
+            socket.emit('connected', "ready");
+        }
+    });
+
+    socket.on('join', function(data) {
+
+         socket.emit('connected', "ready");
+    });
 
 });
 
