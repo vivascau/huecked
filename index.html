@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
+    <script src="/socket.io/socket.io.js"></script>
+  	<script>
+		var socket = io.connect('http://localhost:8000/');
+    </script>
     <title>Huecked</title>
     <style>
           div {
@@ -32,8 +36,16 @@
 <!--<script src="js/vendor/angular.min.js"></script>-->
 <script type="text/javascript"  src="js/vendor/angular-1.1.5.js"></script>
 <script type="text/javascript"  src="js/vendor/angular-ui-router.min.js"></script>
-<script type="text/javascript"  src="js/modules/huecked.js">
+<script type="text/javascript"  src="js/modules/huecked.js"></script>
 
+<script type="text/javascript">
+  var state = false;
+  window.blah = function() {
+	state = !state;
+	socket.emit('switchOn', {"state" : state});
+  };
 </script>
+
+<button name='btn' value='HERE' onclick="javascript: blah();" />
 </body>
 </html>
