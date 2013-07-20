@@ -189,4 +189,13 @@ app.config(function($stateProvider, $routeProvider){
                 }
             }
         })
+        .state('selectPlayers', {
+            url: "/selectPlayers",
+            views: {
+                "main": {
+                    templateUrl: "js/templates/SelectPlayers.html",
+                    controller: 'SelectPlayersController'
+                }
+            }
+        })
 })
