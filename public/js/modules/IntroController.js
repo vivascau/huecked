@@ -4,12 +4,12 @@ app.controller('IntroController.js', ['$scope', '$location', '$timeout', functio
     socket.on('gameStatus', function(data) {
         $timeout( function() {
 
-            console.log("gameStatus: "+data);
+            console.log("gameStatu: "+JSON.stringify(data));
 
-            var status = data.status;
-            console.log('gameStatus status='+status);
+            var started = data.started;
+            console.log('gameStatus started='+started);
 
-            if (status === true) {
+            if (started === false) {
                 socket.emit('join');
                 $scope.$apply()
             }else{

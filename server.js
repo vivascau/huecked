@@ -58,16 +58,22 @@ server.listen(app.get('port'), function(){
 var connections;
 
 io.sockets.on('connection', function (socket) {
+    //user connects to teh app
 
-    socket.on('connect', function(data) {
-        hueMod.blink();
-        if (!gameStarted) {
-            socket.emit('connected', "ready");
-        }
-    });
 
+    socket.emit('gameStatus', {"started": gameMod.hasGameStarted()});
+
+
+    //user has joined the game
     socket.on('join', function(data) {
-         socket.emit('connected', "ready");
+        hueMod.blink();
+        gameMod.setSocket(socket);
+        var player = gameMod.addPlayerToGame();
+        if(player){
+            socket.emit('joinStatus', {"status":true, "player": player});
+        } else{
+            socket.emit('joinStatus', {"status":false});
+        }
     });
 
 });
