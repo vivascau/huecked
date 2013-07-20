@@ -1,32 +1,40 @@
 app.controller('IntroController.js', ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
     console.log("IntroController.js");
 
-    // connect everytime
-    socket.emit('connect');
-
-    socket.on('connected', function(data) {
+    socket.on('gameStatus', function(data) {
         $timeout( function() {
 
-            console.log("connected: "+data);
+            console.log("gameStatus: "+data);
 
             var status = data.status;
-            var player = data.player;
-            console.log('player='+player);
+            console.log('gameStatus status='+status);
 
-            // if there is space, the user joins
-            if (status == "ready") {
-                // ready
+            if (status === true) {
                 socket.emit('join');
-                $location.path('newGame');
                 $scope.$apply()
             }else{
-                // if it's already started the game (busy) show error
                 $location.path('busy');
                 $scope.$apply()
             }
 
         }, 1000 );
 
+    });
+
+    socket.on('joinStatus', function(data){
+
+        var status = data.status;
+        console.log('gameStatus status='+status);
+
+        if(status){
+            $location.path('newGame');
+            $scope.$apply()
+
+        } else{
+            $location.path('busy');
+            $scope.$apply()
+
+        }
 
     });
 
