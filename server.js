@@ -1,11 +1,11 @@
-var app = require('http').createServer(handler)
-  , io = require('socket.io').listen(app)
-  , fs = require('fs')
-    , hue = require('hue-module')
-    , hueMod = require('./hue')
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app),
+    io = require('socket.io').listen(server),
+    fs = require('fs'),
+    hue = require('hue-module'),
+    hueMod = require('./hue')
 
-
-app.listen(8000);
 
 hue.load("192.168.2.166", "bazathackedio");
 hueMod.init(hue);
@@ -22,18 +22,21 @@ var startGame = function() {
 		}, 1000);
 }
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
+// The number of milliseconds in one day
+var oneDay = 86400000;
 
-    res.writeHead(200);
-    res.end(data);
-  });
-}
+app.set("port", 8000);
+// Use compress middleware to gzip content
+app.use(express.compress());
+
+// Serve up content from public directory
+app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
+
+
+
+server.listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+});
 
 
 /**
@@ -47,7 +50,7 @@ function handler (req, res) {
 io.sockets.on('connection', function (socket) {
   socket.on('connect', function(data) {
 		if (!gameStarted) {
-			socket.emit('connected', false);
+			socket.emit('connected', "ready");
 		}
 	});
 
