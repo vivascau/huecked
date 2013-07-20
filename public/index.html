@@ -33,7 +33,6 @@
             display: inline-block;
         }
     </style>
-    <!--<link rel="stylesheet" href="css/bingodab.css">-->
 
 </head>
 <body>
@@ -51,28 +50,7 @@
 <script type="text/javascript"  src="js/modules/huecked.js"></script>
 <script type="text/javascript"  src="js/modules/IntroController.js"></script>
 <script type="text/javascript"  src="js/modules/SelectPlayerController.js"></script>
+<script type="text/javascript"  src="js/modules/NewGameController.js"></script>
 
-
-<script type="text/javascript">
-  var state = false;
-  window.connect = function() {
-		state = !state;
-		socket.emit('connect', {"state" : state});
-		socket.on('connected', function(data) {
-		  if (data == "ready") {
-				alert('game ready');
-				//socket.emit('join', {"state" : "2222"});
-			}
-		});
-
-  };
-
-	window.start = function() {
-		socket.emit('join', {"state" : state});
-	}
-</script>
-
-<button name='btn' value='HERE' onclick="javascript: connect();" >Connect</button>
-<button name='btn' value='HERE' onclick="javascript: start();" />
 </body>
 </html>

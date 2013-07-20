@@ -1,7 +1,27 @@
 app.controller('IntroController.js', ['$scope', '$location', '$timeout', function ($scope, $location, $timeout) {
     console.log("IntroController.js");
 
-    var msDelay = 3000;
+    socket.emit('connect');
+    socket.emit('join', {"state" : true});
 
-    $timeout( function(){ $location.path('start') }, msDelay);
+    socket.on('connected', function(data) {
+        $timeout( function() {
+
+            console.log("connected: "+data);
+
+            if (data == "ready") {
+                // ready
+                $location.path('newGame');
+                $scope.$apply()
+            }else{
+                // busy
+                $location.path('busy');
+                $scope.$apply()
+            }
+
+        }, 1000 );
+
+
+    });
+
 }]);
