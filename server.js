@@ -67,7 +67,6 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('join', function(data) {
-
          socket.emit('connected', "ready");
     });
 
