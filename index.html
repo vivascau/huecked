@@ -55,12 +55,24 @@
 
 <script type="text/javascript">
   var state = false;
-  window.blah = function() {
-	state = !state;
-	socket.emit('switchOn', {"state" : state});
+  window.connect = function() {
+		state = !state;
+		socket.emit('connect', {"state" : state});
+		socket.on('connected', function(data) {
+		  if (data == "ready") {
+				alert('game ready');
+				//socket.emit('join', {"state" : "2222"});
+			}
+		});
+
   };
+
+	window.start = function() {
+		socket.emit('join', {"state" : state});
+	}
 </script>
 
-<button name='Button' onclick="javascript: blah();" > TURN ON/OFF </button>
+<button name='btn' value='HERE' onclick="javascript: connect();" >Connect</button>
+<button name='btn' value='HERE' onclick="javascript: start();" />
 </body>
 </html>
