@@ -6,33 +6,31 @@ var app = require('http').createServer(handler)
 app.listen(8000);
 
 hue.load("192.168.2.166", "bazathackedio");
+var gameStarted = false;
 
-var switchLights = function(state) {
-	hue.lights(function(lights){
-    for(i in lights) {
-			if(lights.hasOwnProperty(i)){
-		    hue.change(lights[i].set({"on": state, "rgb":[0,255,255]}));
-			}
-		}
-	});
-};
 
-function colourRandomizer() {
-	Math.floor((Math.random() * 255));
-};
+var startGame = function() {
+		gameStarted = true;
+		var colourRandomizer = function() {
+					Math.floor((Math.random() * 255));
+		};
 
-var iterateColours = function() {
-	hue.lights(function(lights){
-    for(i in lights) {
-			if(lights.hasOwnProperty(i)){
-				var hueLight = lights[i];
-						hue.change(hueLight.set({"on": true, "rgb":[	Math.floor((Math.random() * 255)),
-																													Math.floor((Math.random() * 255)),
-																													Math.floor((Math.random() * 255))
-																												]}));
-			}
-		}
-	});
+		var changeColours = function(r_colour, g_colour, b_colour) {
+			hue.lights(function(lights){
+				for(i in lights) {
+					if(lights.hasOwnProperty(i)){
+						hue.change(lights[i].set({"on": false, "rgb":[r_colour, g_colour, b_colour]}));
+					}
+				}
+			});
+		};
+
+		setInterval(function() {
+						var r_colour = colourRandomizer();
+						var g_colour = colourRandomizer();
+						var b_colour = colourRandomizer();
+			changeColours(r_colour, g_colour, b_colour);
+		}, 1000);
 }
 
 function handler (req, res) {
@@ -49,10 +47,11 @@ function handler (req, res) {
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.on('switchOn', function(data) {
-		//switchLights(data.state);
-		iterateColours();
-  });
+  socket.on('connect', function(data) {
+		if (!gameStarted) {
+			socket.emit('connected', state);
+		}
+	});
 
 });
 
