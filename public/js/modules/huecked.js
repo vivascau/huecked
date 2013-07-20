@@ -195,4 +195,22 @@ app.config(function($stateProvider, $routeProvider){
                 }
             }
         })
+        .state('busy', {
+            url: "/busy",
+            views: {
+                "main": {
+                    templateUrl: "js/templates/Busy.html"
+                }
+            }
+        })
+        .state('newGame', {
+            url: "/newGame",
+            views: {
+                "main": {
+                    templateUrl: "js/templates/NewGame.html",
+                    controller: 'NewGameController'
+
+                }
+            }
+        })
 })
