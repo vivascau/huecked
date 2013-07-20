@@ -6,6 +6,11 @@
     </script>
     <title>Huecked</title>
     <style>
+        body {
+            background-color: #333;
+            color: white;
+            text-shadow: black 1px 1px;
+        }
           div {
               margin: 5px;
               padding: 5px;
@@ -24,6 +29,9 @@
         .loser {
             background-color: red;
         }
+        .playerSelectionBox{
+            display: inline-block;
+        }
     </style>
     <!--<link rel="stylesheet" href="css/bingodab.css">-->
 
@@ -32,10 +40,18 @@
 
 <div ui-view="main"></div>
 
-<!--<script src="js/vendor/angular.min.js"></script>-->
 <script type="text/javascript"  src="js/vendor/angular-1.1.5.js"></script>
 <script type="text/javascript"  src="js/vendor/angular-ui-router.min.js"></script>
+
+<script type="text/javascript"  src="js/vendor/hammer.min.js"></script>
+<script type="text/javascript"  src="js/vendor/jquery.hammer.min.js"></script>
+
+<script type="text/javascript"  src="js/vendor/angular-hammer.js"></script>
+
 <script type="text/javascript"  src="js/modules/huecked.js"></script>
+<script type="text/javascript"  src="js/modules/IntroController.js"></script>
+<script type="text/javascript"  src="js/modules/SelectPlayerController.js"></script>
+
 
 <script type="text/javascript">
   var state = false;
