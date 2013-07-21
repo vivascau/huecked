@@ -17,7 +17,13 @@ app.controller('NewGameController', ['$scope', '$location', '$timeout', 'GameSer
         }
     }
 
-    socket.on('Result', function(data) {
+    socket.on('leaderboard', function(data) {
+        console.log('LEADERBOARD='+JSON.stringify(data));
+        GameService.leaderboard = data;
+
+        $location.path('leaderboard');
+        $scope.$apply()
+
 
     });
 
