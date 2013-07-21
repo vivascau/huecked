@@ -21,6 +21,8 @@ hue.load("192.168.2.166", "bazathackedio");
 hueMod.init(hue);
 gameMod.init(hueMod, colorsMod);
 
+hueMod.turnOFF();
+
 var gameStarted = false;
 
 var startGame = function() {

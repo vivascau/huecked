@@ -114,7 +114,14 @@ var GameModule = {
                 self.hueMod.changeXY(hueColour);
 
                 // loop
-                drawAndShowColorWithTimeout();
+
+                if(color == self.magicColour){
+                    console.log('FINISH!!!');
+                }else{
+                    console.log('CONTINUE...');
+                    drawAndShowColorWithTimeout();
+                }
+
              },2000)
         }
 
