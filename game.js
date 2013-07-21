@@ -23,8 +23,8 @@ var GameModule = {
             {name:'Red', off: 'ff1700', hex: 'ff8b7f' }];
 
         this.gameAvailableColours = [
-            {name:'Cyan', off: '00ffff', hex: 'a9ffff' },
-            {name:'Silver', off: 'bcbcbc', hex: '999999' },
+            //{name:'Cyan', off: '00ffff', hex: 'a9ffff' },
+            //{name:'Silver', off: 'bcbcbc', hex: '999999' },
             {name:'Grey', off: '565656', hex: '333333' },
             {name:'Blue', off: '005dff', hex: '4c8cfc' },
             {name:'Orange', off: 'ff7900', hex: 'ffb068' },
@@ -60,8 +60,22 @@ var GameModule = {
         this.socket = socket;
     },
 
-    assignRandomMagicColour: function (){
-        this.magicColour = this.gameAvailableColours.random(this.gameAvailableColours.length);
+    drawRandomMagicColour: function (){
+
+        var randomIndex = Math.floor(Math.random() * (this.gameAvailableColours.length + 1)) + 0;
+
+        var drawnColor = this.gameAvailableColours.splice(randomIndex, 1)[0];
+
+        console.log('MAGIC COLOR='+JSON.stringify(drawnColor));
+
+        this.magicColour = drawnColor;
+
+
+        //this.magicColour = this.gameAvailableColours.random(this.gameAvailableColours.length);
+    },
+
+    pushMagicColour: function() {
+        this.gameAvailableColours.push(this.magicColour);
     },
 
     startCountDownToGame: function(){
@@ -70,13 +84,59 @@ var GameModule = {
 
     startGame: function(){
 
-        this.socket.broadcast.emit('startGame',null);
-        this.setGameStarted(true);
-        this.assignRandomMagicColour();
-        console.log(1);
-         var colour = this.colorsMod.get().getCIEColor(this.magicColour.hex);
-        console.log("3"+colour);
-        this.hueMod.changeXY(colour);
+        var self = this;
+        var cycles = 0;
+
+        var drawColor = function() {
+            cycles++;
+            if(cycles === 3){
+                 self.pushMagicColour();
+            }
+
+
+            var randomIndex = Math.floor(Math.random() * (self.gameAvailableColours.length)) + 0;
+
+            console.log('COLOR GOING TO BE DRAWN (cycle='+cycles+',randomindex='+randomIndex+', lenght='+self.gameAvailableColours.length+', colors='+JSON.stringify(self.gameAvailableColours)+')')
+
+            var drawnColor = self.gameAvailableColours[randomIndex];
+            // TODO understand btter way
+            return drawnColor;
+
+        }
+
+        var drawAndShowColorWithTimeout = function() {
+            setTimeout(function(){
+                var color = drawColor();
+
+                console.log('DRAWN COLOR: '+JSON.stringify(color));
+
+                var hueColour = self.colorsMod.get().getCIEColor(color.hex);
+                self.hueMod.changeXY(hueColour);
+
+                // loop
+                drawAndShowColorWithTimeout();
+             },2000)
+        }
+
+        setTimeout(function(){
+
+            self.socket.broadcast.emit('startGame',null);
+            self.setGameStarted(true);
+            self.drawRandomMagicColour();
+            console.log('drawn magic color= '+JSON.stringify(self.magicColour));
+
+            var colour = self.colorsMod.get().getCIEColor(self.magicColour.hex);
+            console.log("3"+colour);
+
+            self.hueMod.changeXY(colour);
+
+                setTimeout(function(){
+                      self.hueMod.turnOFF();
+                    drawAndShowColorWithTimeout();
+                }, 5000);
+
+        }, 2000);
+
 
        // this.hueMod.changeColours();
 
