@@ -1,0 +1,4 @@
+<h1>Leaderboard</h1>
+<div ng-repeat="row in leaderboard | orderBy: row.tapDelay">
+    <p style="{{ row.tapDelay < 0 ? 'color: red' : '' }}"> {{ row.player }} : {{ row.tapDelay }} </p>
+</div>
