@@ -1,4 +1,14 @@
 <h1>Leaderboard</h1>
-<div ng-repeat="row in leaderboard | orderBy: row.tapDelay">
-    <p style="{{ row.tapDelay < 0 ? 'color: red' : '' }}"> {{ row.player }} : {{ row.tapDelay }} </p>
+
+<div style="{{ row.tapDelay < 0 ? 'display: none' : '' }}" ng-repeat="row in leaderboard | orderBy: row.tapDelay">
+    <div> {{ row.player }} {{ row.tapDelay }} </div>
 </div>
+
+<h2></h2>
+
+<div style="{{ row.tapDelay >= 0 ? 'display: none' : '' }}" ng-repeat="row in leaderboard | orderBy: row.tapDelay">
+    <div > {{ row.player }} {{ row.tapDelay }} </div>
+</div>
+
+        <br/>
+<div style="text-align: center"><a href="#">restart game</a></div>
