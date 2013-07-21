@@ -1,7 +1,7 @@
 var HueModule = {
     init : function(hue) {
         this.hue = hue;
-        this.bri =  100;
+        this.bri =  200;
     },
     changeColours : function(r_colour, g_colour, b_colour) {
         var self = this;
@@ -28,13 +28,13 @@ var HueModule = {
                             "hue": 0,
                             "sat": 0,
                             "xy": [
-                            0,
-                            0
+                            1,
+                            1
                         ],
                             "ct": 0,
                             "alert": "none",
                             "effect": "none",
-                            "colormode": "xy",
+                            "colormode": "hs",
                             "reachable": true
                     });
     },
@@ -42,11 +42,23 @@ var HueModule = {
     modifyHue: function(JSON){
         var self = this;
 
-        this.hue.lights(function(lights){
-            for(i in lights)
-                if(i !== "1" &&  lights.hasOwnProperty(i))
-                    self.hue.change(lights[i].set(JSON));
-        });
+
+        var displayResult = function(result) {
+            console.log(result);
+        };
+
+        var displayError = function(err) {
+            console.error(err);
+        };
+
+        this.hue.setLightState(1, JSON); // provide a value of false to turn off
+        this.hue.setLightState(3, JSON); // provide a value of false to turn off
+
+//        this.hue.lights(function(lights){
+//            for(i in lights)
+//                if(i !== "1" &&  lights.hasOwnProperty(i))
+//                    self.hue.change(lights[i].set(JSON));
+//        });
     }
 };
 

@@ -12,12 +12,12 @@ var GameModule = {
         this.magicColour = null;
 
         this.playerAvailableColours = [
-            {name:'Cyan', off: '00ffff', hex: 'a9ffff' },
-            {name:'Silver', off: 'bcbcbc', hex: '999999' },
-            {name:'Grey', off: '565656', hex: '333333' },
             {name:'Blue', off: '005dff', hex: '4c8cfc' },
             {name:'Orange', off: 'ff7900', hex: 'ffb068' },
             {name:'Green', off: '00a000', hex: '5c9c5c' },
+            {name:'Cyan', off: '00ffff', hex: 'a9ffff' },
+            {name:'Silver', off: 'bcbcbc', hex: '999999' },
+            {name:'Grey', off: '565656', hex: '333333' },
             {name:'Yellow', off: 'ffe800', hex: 'fff26b' },
             {name:'Magenta', off: 'fa0085', hex: 'ff8ac8' },
             {name:'Red', off: 'ff1700', hex: 'ff8b7f' }];
@@ -80,6 +80,10 @@ var GameModule = {
 
     startCountDownToGame: function(){
 
+    },
+
+    canStartGame:function(){
+        return this.playersConnected.length === this.minimumUsers;
     },
 
     startGame: function(){
