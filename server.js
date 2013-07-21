@@ -113,7 +113,7 @@ io.sockets.on('connection', function (socket) {
                 gameMod.taps[i].tapDelay = gameMod.taps[i].tapTime - gameMod.whenMagicColorDrawn;
             }
 
-            socket.broadcast.emit('leaderboard', gameMod.taps);
+            io.sockets.emit('leaderboard', gameMod.taps);
         }
     });
 
