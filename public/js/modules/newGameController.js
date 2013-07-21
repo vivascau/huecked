@@ -27,4 +27,12 @@ app.controller('NewGameController', ['$scope', '$location', '$timeout', 'GameSer
 
     });
 
+    socket.on('gameStarts', function(data) {
+        console.log('gameStarts='+JSON.stringify(data));
+
+        $scope.gameStarted = true;
+
+
+    });
+
 }]);
