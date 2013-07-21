@@ -13,9 +13,14 @@ var HueModule = {
     colourRandomizer : function() {
         Math.floor((Math.random() * 255));
     },
-    blink: function(){
-        this.modifyHue({"on": false, "alert": "select" });
-
+    blink: function(xyArr, times){
+        var amount = 1;
+        if(times){
+            amount=times;
+        }
+        for(var i=0; i<amount; i++){
+            this.modifyHue({"on": false, "alert": "select", "xy":xyArr});
+        }
     },
     turnOFF: function(){
         this.modifyHue({"on": false});
@@ -51,7 +56,7 @@ var HueModule = {
             console.error(err);
         };
 
-        this.hue.setLightState(1, JSON); // provide a value of false to turn off
+        //this.hue.setLightState(1, JSON); // provide a value of false to turn off
         this.hue.setLightState(3, JSON); // provide a value of false to turn off
 
 //        this.hue.lights(function(lights){

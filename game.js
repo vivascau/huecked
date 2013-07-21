@@ -43,15 +43,12 @@ var GameModule = {
     addPlayerToGame : function() {
         var currentConnectedPlayers = this.playersConnected.length;
 
-        if(this.playersConnected.length >= this.minimumUsers ){
-            this.startGame();
-            return null;
-        }
-
-        if(currentConnectedPlayers >= this.playerAvailableColours.length){
+         if(currentConnectedPlayers >= this.playerAvailableColours.length){
                return null;
         } else {
-            this.playersConnected[currentConnectedPlayers] = this.playerAvailableColours[currentConnectedPlayers];
+             var newPlayer = this.playerAvailableColours[currentConnectedPlayers];
+             this.playersConnected[currentConnectedPlayers] = newPlayer;
+             this.hueMod.blink(this.colorsMod.get().getCIEColor(newPlayer.hex),2);
             return this.playersConnected[currentConnectedPlayers];
         }
     },

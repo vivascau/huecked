@@ -72,7 +72,6 @@ io.sockets.on('connection', function (socket) {
 
     //user has joined the game
     socket.on('join', function(data) {
-        hueMod.blink();
         gameMod.setSocket(socket);
         var player = gameMod.addPlayerToGame();
 
