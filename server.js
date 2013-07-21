@@ -2,8 +2,6 @@ Array.prototype.random = function (length) {
     return this[Math.floor((Math.random()*length))];
 }
 
-
-
 var express = require('express');
 var app = express();
 
@@ -21,7 +19,9 @@ hue.load("192.168.2.166", "bazathackedio");
 hueMod.init(hue);
 gameMod.init(hueMod, colorsMod);
 
-hueMod.turnOFF();
+//resetHue
+
+hueMod.resetHUE();
 
 var gameStarted = false;
 
