@@ -44,7 +44,10 @@ app.use(express.compress());
 // Serve up content from public directory
 app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
 
-
+app.on('close', function () {
+    console.log("Closed");
+    hueMod.blinkOnce();
+});
 
 server.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));
@@ -81,6 +84,7 @@ io.sockets.on('connection', function (socket) {
             socket.emit('joinStatus', {"status":false});
         }
         if(gameMod.canStartGame()){
+            io.sockets.emit('gameStarts', {"status":false});
             gameMod.startGame();
         }
     });
@@ -116,6 +120,7 @@ io.sockets.on('connection', function (socket) {
             }
 
             io.sockets.emit('leaderboard', gameMod.taps);
+            hueMod.blinkOnce();
         }
     });
 

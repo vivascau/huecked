@@ -1,7 +1,7 @@
 var HueModule = {
     init : function(hue) {
         this.hue = hue;
-        this.bri =  200;
+        this.bri =  250;
     },
     changeColours : function(r_colour, g_colour, b_colour) {
         var self = this;
@@ -14,13 +14,14 @@ var HueModule = {
         Math.floor((Math.random() * 255));
     },
     blink: function(xyArr, times){
-        var amount = 1;
-        if(times){
-            amount=times;
-        }
-        for(var i=0; i<amount; i++){
+
             this.modifyHue({"on": false, "alert": "select", "xy":xyArr});
-        }
+
+    },
+    blinkOnce: function(){
+
+        this.modifyHue({"on": false, "alert": "select"});
+
     },
     turnOFF: function(){
         this.modifyHue({"on": false});
@@ -56,8 +57,9 @@ var HueModule = {
             console.error(err);
         };
 
-        //this.hue.setLightState(1, JSON); // provide a value of false to turn off
-        this.hue.setLightState(3, JSON); // provide a value of false to turn off
+        this.hue.setLightState(1, JSON); // provide a value of false to turn off
+        this.hue.setLightState(2, JSON); // provide a value of false to turn off
+//        this.hue.setLightState(3, JSON); // provide a value of false to turn off
 
 //        this.hue.lights(function(lights){
 //            for(i in lights)

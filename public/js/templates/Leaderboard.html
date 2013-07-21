@@ -1,7 +1,7 @@
 <h1>Leaderboard</h1>
 
 <div style="{{ row.tapDelay < 0 ? 'display: none' : '' }}" ng-repeat="row in leaderboard | orderBy: row.tapDelay">
-    <div> {{ row.player }} {{ row.tapDelay }} </div>
+    <div style="color: {{row.player}}"> {{ row.player }} {{ row.tapDelay }} </div>
 </div>
 
 <h2></h2>

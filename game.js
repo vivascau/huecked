@@ -7,7 +7,7 @@ var GameModule = {
         this.colorsMod = colorsMod;
 
         this.gameStarted = false;
-        this.minimumUsers = 2;
+        this.minimumUsers = 3;
         this.playersConnected = [];
         this.magicColour = null;
 
@@ -25,19 +25,25 @@ var GameModule = {
         this.gameAvailableColours = [
             //{name:'Cyan', off: '00ffff', hex: 'a9ffff' },
             //{name:'Silver', off: 'bcbcbc', hex: '999999' },
-            {name:'Grey', off: '565656', hex: '333333', "hue":0 },
-            {name:'Blue', off: '005dff', hex: '0000ff',"hue": 46920 },
-            {name:'Orange', off: 'ff7900', hex: 'ffb068', "hue": 12750 },
-            {name:'Green', off: '00a000', hex: '00ff00' , "hue": 36210},
-            {name:'Yellow', off: 'ffe800', hex: 'ffffe0', "hue": 12750},
-            {name:'Magenta', off: 'fa0085', hex: 'ff8ac8', "hue": 56100 },
-            {name:'Red', off: 'ff1700', hex: 'ff0000', "hue": 0}];
+//            {name:'Grey', off: '565656', hex: '333333', "hue":0 },
+
+
+            {name:'Blue', off: '005dff', hex: '0000ff',"hue": 46920, "xy":[0.167, 0.040]},
+//            {name:'Orange', off: 'ff7900', hex: 'ffb068', "hue": 12750 },
+            {name:'Green', off: '00a000', hex: '00ff00' , "hue": 36210, "xy":[0.220, 0.075]},
+            {name:'Yellow', off: 'ffe800', hex: 'ffffe0', "hue": 12750, "xy":[0.515, 0.440]},
+            {name:'Magenta', off: 'fa0085', hex: 'ff8ac8', "hue": 56100 , "xy":[0,421, 0.181]},
+            {name:'Red', off: 'ff1700', hex: 'ff0000', "hue": 0, "xy":[0.675, 0.322]}];
     },
     hasGameStarted: function() {
         return this.gameStarted;
     },
     setGameStarted: function(state) {
         this.gameStarted = state;
+    },
+
+    getMagicColour : function(){
+      return this.magicColour;
     },
 
     addPlayerToGame : function() {
@@ -48,7 +54,7 @@ var GameModule = {
         } else {
              var newPlayer = this.playerAvailableColours[currentConnectedPlayers];
              this.playersConnected[currentConnectedPlayers] = newPlayer;
-             this.hueMod.blink(this.colorsMod.get().getCIEColor(newPlayer.hex),2);
+             this.hueMod.blink(this.colorsMod.get().getCIEColor(newPlayer.hex));
             return this.playersConnected[currentConnectedPlayers];
         }
     },
@@ -61,9 +67,17 @@ var GameModule = {
 
         var randomIndex = Math.floor(Math.random() * (this.gameAvailableColours.length + 1)) + 0;
 
-        var drawnColor = this.gameAvailableColours.splice(randomIndex, 1)[0];
+        var drawnColor = this.gameAvailableColours[randomIndex];
+        this.gameAvailableColours.splice(randomIndex, 1);
+
 
         console.log('MAGIC COLOR='+JSON.stringify(drawnColor));
+
+        if(!drawnColor)  {
+               drawnColor = this.gameAvailableColours[2];
+               this.gameAvailableColours.splice(2, 1);
+
+        }
 
         this.magicColour = drawnColor;
 
@@ -115,7 +129,7 @@ var GameModule = {
 
                 console.log('DRAWN COLOR: '+JSON.stringify(color));
 
-                var hueColour = self.colorsMod.get().getCIEColor(color.hex);
+                var hueColour = color.xy;
                 self.hueMod.changeXY(hueColour, color.hue);
 
                 // loop
@@ -136,15 +150,15 @@ var GameModule = {
             self.socket.broadcast.emit('startGame',null);
             self.setGameStarted(true);
             self.drawRandomMagicColour();
-            console.log('drawn magic color= '+JSON.stringify(self.magicColour));
+            console.log('drawn magic color= '+JSON.stringify(self.magicColour) + " ;; " + self.getMagicColour());
 
-            var colour = self.colorsMod.get().getCIEColor(self.magicColour.hex);
+            var colour = self.magicColour.xy;
             console.log("3"+colour);
 
             self.hueMod.changeXY(colour, colour.hue);
 
                 setTimeout(function(){
-                      self.hueMod.turnOFF();
+                      //self.hueMod.turnOFF();
                     drawAndShowColorWithTimeout();
                 }, 5000);
 
