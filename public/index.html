@@ -1,22 +1,53 @@
 <html ng-app="app">
 <head>
+    <link rel="shortcut icon" href="http://i.imgur.com/BOVCiop.gif"/>
+
     <script src="/socket.io/socket.io.js"></script>
   	<script>
 		var socket = io.connect('http://localhost:8000/');
     </script>
     <title>Huecked</title>
     <style>
+
+        @keyframes myfirst
+        {
+            0%   {color: red;}
+            25%  {color: yellow;}
+            50%  {color: blue;}
+            100% {color: green;}
+        }
+
+        @font-face {
+            font-family: cool_font;
+            src: url('https://dl.dropboxusercontent.com/u/52370920/Prismfont_CLv2.otf');
+        }
+
+            /*div:hover
+            {
+            color:purple
+            }*/
+
+        p.serif{font-family:cool_font;font-size:3em}
+
         body {
-            background-color: #333;
+
+            font-family: cool_font;
+            font: cool_font;
             color: white;
+            font-size: 43px;
+            background-color: #333;
+
             text-shadow: black 1px 1px;
         }
-          div {
-              margin: 5px;
-              padding: 5px;
-              border: 1px solid gray;
-              min-height: 50px;
-          }
+        div {
+            margin: 5px;
+            padding: 5px;
+            min-height: 50px;
+            /*transition:all 2s;*/
+            animation-iteration-count: infinite;
+            animation-duration:5s;
+            animation-name:myfirst;
+        }
 
         .ready {
             background-color: yellow;
@@ -35,6 +66,8 @@
     </style>
 
 </head>
+
+</head>
 <body>
 
 <div ui-view="main"></div>
@@ -51,6 +84,7 @@
 <script type="text/javascript"  src="js/modules/IntroController.js"></script>
 <script type="text/javascript"  src="js/modules/SelectPlayerController.js"></script>
 <script type="text/javascript"  src="js/modules/newGameController.js"></script>
+<script type="text/javascript"  src="js/modules/LeaderboardController.js"></script>
 
 
 </body>

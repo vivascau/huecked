@@ -91,10 +91,13 @@ io.sockets.on('connection', function (socket) {
        console.log('TAP='+JSON.stringify(data));
 
         if(gameMod.taps === undefined){
-            taps = [];
+            gameMod.taps = [];
         }
 
-        taps.push({colorName : data.colorName, tapTime: new Date()});
+        var now = new Date();
+        gameMod.taps.push({player: data.colorName, tapTime: now});
+
+
 
         if(gameMod.whenMagicColorDrawn === undefined){
             console.log('wrong tap for '+data.colorName);
@@ -102,6 +105,19 @@ io.sockets.on('connection', function (socket) {
             console.log('correct tap after '+ ( new Date() - gameMod.whenMagicColorDrawn) );
         }
 
+
+        if(gameMod.minimumUsers === gameMod.taps.length){
+
+            if(gameMod.whenMagicColorDrawn === undefined){
+                gameMod.whenMagicColorDrawn = new Date();
+            }
+
+            for(var i = 0; i < gameMod.taps.length; i++){
+                gameMod.taps[i].tapDelay = gameMod.taps[i].tapTime - gameMod.whenMagicColorDrawn;
+            }
+
+            socket.broadcast.emit('leaderboard', gameMod.taps);
+        }
     });
 
 });
