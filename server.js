@@ -8,13 +8,12 @@ var app = express();
 var server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     fs = require('fs'),
-    hue = require('hue-module'),
+    HueApi = require('node-hue-api').HueApi,
     hueMod = require('./hue'),
     colorsMod = require('./colors'),
     gameMod = require('./game')
 
-
-hue.load("192.168.2.166", "bazathackedio");
+var hue = new HueApi("192.168.2.166", "bazathackedio");
 //init modules
 hueMod.init(hue);
 gameMod.init(hueMod, colorsMod);
@@ -73,13 +72,16 @@ io.sockets.on('connection', function (socket) {
 
     //user has joined the game
     socket.on('join', function(data) {
-        hueMod.blink();
         gameMod.setSocket(socket);
         var player = gameMod.addPlayerToGame();
+
         if(player){
             socket.emit('joinStatus', {"status":true, "player": player});
         } else{
             socket.emit('joinStatus', {"status":false});
+        }
+        if(gameMod.canStartGame()){
+            gameMod.startGame();
         }
     });
 
