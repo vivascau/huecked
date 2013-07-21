@@ -1,13 +1,18 @@
 <html ng-app="app">
 <head>
     <link rel="shortcut icon" href="http://i.imgur.com/BOVCiop.gif"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
     <script src="/socket.io/socket.io.js"></script>
   	<script>
-		var socket = io.connect('http://localhost:8000/');
+		var socket = io.connect('http://192.168.2.185:8000/');
     </script>
     <title>Huecked</title>
     <style>
+
+        .normalFont {
+            font-family: tahoma, serif, sans-serif;
+        }
 
         @keyframes myfirst
         {
@@ -40,9 +45,9 @@
             text-shadow: black 1px 1px;
         }
         div {
-            margin: 5px;
+            /*margin: 5px;
             padding: 5px;
-            min-height: 50px;
+            min-height: 50px;*/
             /*transition:all 2s;*/
             animation-iteration-count: infinite;
             animation-duration:5s;
@@ -54,7 +59,7 @@
         }
 
         .winner {
-            background-color: green;
+            background-color: gold;
         }
 
         .loser {
