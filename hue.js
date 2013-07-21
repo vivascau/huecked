@@ -12,6 +12,16 @@ var HueModule = {
             }
         });
     },
+    changeXY : function(colArray) {
+        var self = this;
+        this.hue.lights(function(lights){
+            for(i in lights) {
+                if(lights.hasOwnProperty(i)){
+                    self.hue.change(lights[i].set({"on": true, "xy":colArray}));
+                }
+            }
+        });
+    },
     colourRandomizer : function() {
         Math.floor((Math.random() * 255));
     },

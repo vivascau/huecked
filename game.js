@@ -1,5 +1,7 @@
 var GameModule = {
 
+
+
     init : function(hueMod, colorsMod) {
         this.hueMod = hueMod;
         this.colorsMod = colorsMod;
@@ -72,8 +74,9 @@ var GameModule = {
         this.setGameStarted(true);
         this.assignRandomMagicColour();
         console.log(1);
-         var colour = this.colorsMod.get().getCIEColor("a9ffff");
+         var colour = this.colorsMod.get().getCIEColor(this.magicColour.hex);
         console.log("3"+colour);
+        this.hueMod.changeXY(colour);
 
        // this.hueMod.changeColours();
 
