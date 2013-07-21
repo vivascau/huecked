@@ -1,3 +1,7 @@
+Array.prototype.random = function (length) {
+    return this[Math.floor((Math.random()*length))];
+}
+
 var express = require('express');
 var app = express();
 
@@ -6,15 +10,14 @@ var server = require('http').createServer(app),
     fs = require('fs'),
     hue = require('hue-module'),
     hueMod = require('./hue'),
+    colorsMod = require('./colors'),
     gameMod = require('./game')
 
 
 hue.load("192.168.2.166", "bazathackedio");
-
-
 //init modules
 hueMod.init(hue);
-gameMod.init();
+gameMod.init(hueMod, colorsMod);
 
 var gameStarted = false;
 
