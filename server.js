@@ -67,9 +67,9 @@ var connections;
 io.sockets.on('connection', function (socket) {
     //user connects to teh app
 
-
-    socket.emit('gameStatus', {"started": gameMod.hasGameStarted()});
-
+    socket.on('getGameStatus', function(data) {
+        socket.emit('gameStatus', {"started": gameMod.hasGameStarted()});
+    });
 
     //user has joined the game
     socket.on('join', function(data) {
@@ -81,6 +81,24 @@ io.sockets.on('connection', function (socket) {
         } else{
             socket.emit('joinStatus', {"status":false});
         }
+    });
+
+
+    socket.on('tap', function(data){
+       console.log('TAP='+JSON.stringify(data));
+
+        if(gameMod.taps === undefined){
+            taps = [];
+        }
+
+        taps.push({colorName : data.colorName, tapTime: new Date()});
+
+        if(gameMod.whenMagicColorDrawn === undefined){
+            console.log('wrong tap for '+data.colorName);
+        }else{
+            console.log('correct tap after '+ ( new Date() - gameMod.whenMagicColorDrawn) );
+        }
+
     });
 
 });
