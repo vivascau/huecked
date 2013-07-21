@@ -87,6 +87,8 @@ var GameModule = {
         var self = this;
         var cycles = 0;
 
+        self.whenMagicColorDrawn = undefined;
+
         var drawColor = function() {
             cycles++;
             if(cycles === 3){
@@ -117,6 +119,7 @@ var GameModule = {
 
                 if(color == self.magicColour){
                     console.log('FINISH!!!');
+                    self.whenMagicColorDrawn = new Date();
                 }else{
                     console.log('CONTINUE...');
                     drawAndShowColorWithTimeout();
@@ -144,26 +147,6 @@ var GameModule = {
 
         }, 2000);
 
-
-       // this.hueMod.changeColours();
-
-//        setTimeout(function(){
-//                this.socket.emit('countdown',3);
-//                setTimeout(function(){
-//                        this.socket.emit('countdown',2);
-//                        window.setTimeout(function(){
-//                                this.socket.emit('countdown',1);
-//                                window.setTimeout(function(){
-//                                        this.socket.emit('startGame',null);
-//                                        this.gameStarted  = true;
-//                                    },
-//                                    1000);
-//                            },
-//                            1000);
-//                    },
-//                    1000);
-//            },
-//            1000);
     },
 
 

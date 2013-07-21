@@ -33,10 +33,6 @@ app.factory('GameService', function(){
 
     var GameService = {};
 
-    GameService.getNewGame = function(){
-
-    }
-
     return GameService;
 
 });
