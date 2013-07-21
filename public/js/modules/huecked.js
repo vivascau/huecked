@@ -31,9 +31,12 @@ app.factory('PlayersService', function(){
 
 app.factory('GameService', function(){
 
-    var GameService = {};
+    if(this.GameService === undefined){
+        this.GameService = {};
+    }
 
-    return GameService;
+
+    return this.GameService;
 
 });
 
@@ -205,6 +208,16 @@ app.config(function($stateProvider, $routeProvider){
                 "main": {
                     templateUrl: "js/templates/NewGame.html",
                     controller: 'NewGameController'
+
+                }
+            }
+        })
+        .state('leaderboard', {
+            url: "/leaderboard",
+            views: {
+                "main": {
+                    templateUrl: "js/templates/Leaderboard.html",
+                    controller: 'LeaderboardController'
 
                 }
             }
